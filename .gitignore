@@ -3,3 +3,6 @@ session.txt
 
 # input data
 input*.txt
+
+# Virtual Environment
+venv/
