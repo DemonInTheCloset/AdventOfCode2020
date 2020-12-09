@@ -11,10 +11,22 @@ FILE_NAME = "input03.txt"
 SANITY_SAMPLES = 5
 
 # Space for auxiliary functions
+def traverse(trees: str, start: int, slope: tuple[int, int]) -> bool:
+    n = len(trees)
+    return trees[(start + slope[0] + n) % n] == '#'
+
 
 # Space for problem solutions
 def problem_one(lines: Iterator[str]) -> int:
-    return 0
+    total = 0
+    slope = (3, 1)
+    i = 0
+
+    for trees in lines:
+        total += traverse(trees, i, slope)
+        i += slope[1]
+
+    return total
 
 
 def problem_two(lines: Iterator[str]) -> int:
