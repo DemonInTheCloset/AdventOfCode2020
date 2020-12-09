@@ -18,7 +18,10 @@ def traverse(slope: tuple[int, int], trees: Iterator[str], start: tuple[int, int
     n = len(fst)
     yield fst[start[0]]
 
-    for line in trees:
+    for i, line in enumerate(trees):
+        if (i + 1) % dy:
+            continue
+
         start = (dx + start[0], dy + start[1])
         yield line[start[0] % n]
 
@@ -31,7 +34,12 @@ def problem_one(lines: Iterator[str]) -> int:
 
 
 def problem_two(lines: Iterator[str]) -> int:
-    return 0
+    total = 1
+    trees = list(lines)
+    for slope in [(1,1), (3,1), (5,1), (7,1), (1,2)]:
+        total *= len(list(filter(lambda x: x == '#', traverse(slope, iter(trees)))))
+
+    return total
 
 
 # CLI Code (No need to edit)
@@ -56,6 +64,8 @@ def main() -> None:
     print(f'\nSanity checks (only the first {SANITY_SAMPLES} lines):')
     executor(problem_one, itertools.islice(get_lines(), SANITY_SAMPLES))
     executor(problem_two, itertools.islice(get_lines(), SANITY_SAMPLES))
+
+    problem_two(get_lines())
 
 
 
