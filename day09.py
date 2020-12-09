@@ -22,7 +22,7 @@ def valid(numbers: list[int]) -> bool:
     return False
 
 
-def contigous_set(numbers, target: int) -> list[int]:
+def contigous_set(numbers: list[int], target: int) -> list[int]:
     i = 0
     e = 0
     n = len(numbers)
