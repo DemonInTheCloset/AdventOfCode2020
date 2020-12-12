@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import itertools
+import functools
 
 from collections.abc import Iterator
 from collections import Counter
@@ -63,13 +64,16 @@ def problem_two(lines: Iterator[str]) -> int:
 
     diff = diffs(numbers)
 
-    can_takeout = [x + y < 3 for x, y in zip(diff, diff[1:])]
-    can_takeout.insert(0, False)
-    possibilities = 0
+    r = 1
+    s = 0
+    p = {0 : 1, 1: 2, 2: 4, 3: 7, 4: 13}
+    for i, d in enumerate(diff[1:]):
+        if d != 1:
+            if i != s:
+                r *= p[i - s]
+            s = i + 1
 
-    a = list(arragenments(diff, can_takeout))
-    
-    return len(a)
+    return r
 
 
 # CLI Code (No need to edit)
@@ -95,7 +99,6 @@ def main() -> None:
     executor(problem_one, itertools.islice(get_lines(), SANITY_SAMPLES))
     executor(problem_two, itertools.islice(get_lines(), SANITY_SAMPLES))
 
-    problem_two(get_lines())
 
 if __name__ == '__main__':
     main()
