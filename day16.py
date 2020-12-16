@@ -10,14 +10,20 @@ from typing import Any
 FILE_NAME = "input16.txt"
 SANITY_SAMPLES = 5
 
+Rule = list[int]
+Ticket = list[int]
+
+
 # Space for auxiliary functions
-def parse_header() -> tuple[dict[str, list[list[int]]], list[int], list[list[int]]]:
-    data = get_lines()
+def parse_header(lines) -> tuple[dict[str, list[Rule]], Ticket, list[Ticket]]:
+    data = lines
     rules = dict()
     for line in data:
         if line:
             name, ranges, *_ = line.split(':')
-            ranges = [[int(y) for y in x.split('-')] for x in ranges.split('or')]
+            ranges = [
+                    [int(y) for y in x.split('-')] for x in ranges.split('or')
+                ]
             rules[name] = ranges
         else:
             break
@@ -64,31 +70,34 @@ def invalid_values(ticket, rules: dict):
 
 # Space for problem solutions
 def problem_one(lines: Iterator[str]) -> int:
-    rules, my_ticket, tickets = parse_header()
+    rules, _, tickets = parse_header(lines)
 
     return sum(map(sum, map(lambda x: invalid_values(x, rules), tickets)))
 
 
 def problem_two(lines: Iterator[str]) -> int:
-    rules, my_ticket, tickets = parse_header()
+    rules, my_ticket, tickets = parse_header(lines)
 
     tickets = list(filter(lambda x: valid_ticket(x, rules), tickets))
     # six_rules = [r for (n, r) in rules.items() if n.startswith('departure')]
     positions = []
     for rule in rules.values():
-        positions.append({i for (i,x) in enumerate(tickets[0]) if in_range(rule, x)})
+        pos_set = {i for (i, x) in enumerate(tickets[0]) if in_range(rule, x)}
+        positions.append(pos_set)
         for ticket in tickets[1:]:
-            positions[-1] = set(filter(lambda i: in_range(rule, ticket[i]), positions[-1]))
+            def ticket_entry(i: int):
+                return in_range(rule, ticket[i])
+
+            positions[-1] = set(filter(ticket_entry, positions[-1]))
             if len(positions[-1]) <= 1:
                 positions[-1] = positions[-1].pop()
                 break
-
 
     # print('\n'.join(map(str, positions)))
     while any(map(lambda x: isinstance(x, set), positions)):
         for x in positions:
             if isinstance(x, int):
-                for i,s in enumerate(positions):
+                for i, s in enumerate(positions):
                     if isinstance(s, set):
                         s.discard(x)
                         if len(s) == 1:
