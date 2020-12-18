@@ -10,7 +10,9 @@ from typing import Any
 FILE_NAME = None
 SANITY_SAMPLES = 5
 
+
 # Space for auxiliary functions
+
 
 # Space for problem solutions
 def problem_one(lines: Iterator[str]) -> int:
@@ -43,7 +45,6 @@ def main() -> None:
     print(f'\nSanity checks (only the first {SANITY_SAMPLES} lines):')
     executor(problem_one, itertools.islice(get_lines(), SANITY_SAMPLES))
     executor(problem_two, itertools.islice(get_lines(), SANITY_SAMPLES))
-
 
 
 if __name__ == '__main__':
