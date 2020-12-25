@@ -8,7 +8,7 @@ from typing import Any
 from tqdm import trange
 
 # Environment variables
-FILE_NAME = "input24.txt"
+FILE_NAME = "data/input24.txt"
 SANITY_SAMPLES = 5
 
 Coordinate = tuple[int, int, int]
