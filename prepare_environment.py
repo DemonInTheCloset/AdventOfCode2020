@@ -31,7 +31,7 @@ def main() -> None:
         # Read from template
         s = template.read()
 
-        s = s.replace('FILE_NAME = None', f'FILE_NAME = "input{args.day:02}.txt"')
+        s = s.replace('FILE_NAME = None', f'FILE_NAME = "data/input{args.day:02}.txt"')
 
         with open(f'day{args.day:02}.py', 'w') as fp:
             fp.write(s)
