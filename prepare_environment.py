@@ -23,7 +23,7 @@ def main() -> None:
     # Get input data
     url = f'https://adventofcode.com/2020/day/{args.day}/input'
     with requests.get(url, cookies=cookies) as r:
-        with open(f'input{args.day:02}.txt', 'w') as fp:
+        with open(f'data/input{args.day:02}.txt', 'w') as fp:
             fp.write(r.text)
 
     # Copy template into new file
